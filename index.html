@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>100 Ways</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg1:#1a0b2e;--bg2:#3a1050;--bg3:#5a1a4a;--text:#fff;--soft:#d8c8ee;--pink:#ffc2da;--hot:#ff4d8d;--glass:rgba(255,255,255,.09);--edge:rgba(255,255,255,.22)}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;display:grid;place-items:center;padding:24px;font-family:Inter,system-ui,sans-serif;color:var(--text);
+background:linear-gradient(135deg,var(--bg1),var(--bg2) 50%,var(--bg3));overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.55;z-index:0;pointer-events:none}
+.a{width:360px;height:360px;background:#ff4d8d;top:-80px;left:-60px}
+.b{width:400px;height:400px;background:#7a5cff;bottom:-100px;right:-80px}
+.wrap{position:relative;z-index:1;width:min(640px,100%);text-align:center;perspective:900px}
+.panel{background:var(--glass);border:1px solid var(--edge);border-radius:32px;padding:clamp(26px,6vw,50px);
+backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 30px 60px -20px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.25);
+transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .2s}
+small{color:var(--pink);letter-spacing:.08em}
+h1{font-size:clamp(1.5rem,5vw,2.2rem);margin:6px 0 4px}
+.sub{color:var(--soft);font-size:.92rem;margin-bottom:26px}
+#msg{font-size:clamp(1.25rem,4.5vw,1.8rem);line-height:1.5;min-height:140px;display:grid;place-items:center;transition:opacity .25s}
+.count{color:var(--pink);margin:14px 0 20px;font-size:.9rem}
+button{font:inherit;color:#fff;border:1px solid var(--edge);background:rgba(255,255,255,.12);padding:11px 22px;border-radius:999px;cursor:pointer;margin:4px;transition:.2s}
+button:hover{background:rgba(255,255,255,.22)}
+.main{background:var(--hot);border-color:var(--hot);box-shadow:0 10px 26px -6px var(--hot)}
+.from{margin-top:22px;color:var(--soft);font-style:italic}
+#all{display:none;text-align:left;margin-top:20px;max-height:50vh;overflow-y:auto;padding-right:6px}
+#all p{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:.95rem}
+#all b{color:#ff8fb8;margin-right:8px}
+</style></head><body>
+<div class="orb a"></div><div class="orb b"></div>
+<div class="wrap"><div class="panel" id="panel">
+<small>♥ 100 WAYS TO SAY I LOVE YOU</small>
+<h1>Meri Jaan</h1>
+<div class="sub">4 saal pehle tumne haan kaha tha, aur main har roz us haan ka shukar ada karta hoon.</div>
+<div id="msg"></div>
+<div class="count" id="count"></div>
+<button onclick="step(-1)">← Pehle wala</button>
+<button class="main" onclick="step(1)">Agla →</button>
+<button onclick="rnd()">Koi bhi ♥</button>
+<div><button onclick="toggleAll()" id="tb">Sab dekho</button></div>
+<div id="all"></div>
+<div class="from">— Tumhara</div>
+</div></div>
+<script>
+var M=[
+"Tum meri sab se pyari dua ho jo qabool ho gayi.",
+"Tumhari muskurahat meri subah ki pehli roshni hai.",
+"Main tumse mohabbat karta hoon, aaj bhi, kal bhi, hamesha.",
+"Tumhare bina meri duniya khaali si lagti hai.",
+"Tum mere liye ghar ho, jahan bhi tum ho.",
+"Tumhari khamoshi mein bhi mujhe mohabbat sunai deti hai.",
+"4 saal pehle tumne haan kaha, aur meri zindagi shuru ho gayi.",
+"Tum meri sabse khoobsurat aadat ho.",
+"Mujhe tumse zyada kisi ki fikar nahi.",
+"Tumhara naam lete hi dil sukoon se bhar jata hai.",
+"Tum mere har din ko khaas bana deti ho.",
+"Tumhari aankhon mein mujhe apna kal nazar aata hai.",
+"Tum ho to sab theek lagta hai.",
+"Main har janam mein tumhe hi chunoonga.",
+"Tumhare saath khamosh baithna bhi mujhe sab se acha lagta hai.",
+"Tum meri sabse badi khushi ho.",
+"Tumhari hansi meri sab pareshaniyan bhula deti hai.",
+"Main tumhara intezar umar bhar kar sakta hoon.",
+"Tum mere dil ki dhadkan ho.",
+"Tumhari ek jhalak meri thakan mita deti hai.",
+"Tum se pehle zindagi guzar rahi thi, tum se milkar jee rahi hai.",
+"Mujhe tumse pyar hai, bina kisi shart ke.",
+"Tum meri pehli aur aakhri choice ho.",
+"Tumhare bina chai bhi pheeki lagti hai.",
+"Tum meri sabse khoobsurat kahani ho.",
+"Main tumhe jitna chahun, kam hi lagta hai.",
+"Tumhari baatein meri pasandida dhun hain.",
+"Tum mere liye chand se bhi zyada roshan ho.",
+"Tumhara haath thamna meri zindagi ka sabse acha faisla tha.",
+"Tum ne mujhe behtar insaan banaya hai.",
+"Main har roz tumhara shukar ada karta hoon.",
+"Tum meri dua, meri tamanna, meri manzil ho.",
+"Tumhari yaad bin bulaye aa jati hai, aur dil muskura deta hai.",
+"Tum se door rehna meri sabse mushkil azmaish hai.",
+"Tum meri duniya ka markaz ho.",
+"Tumhare saath budha hona meri sabse khoobsurat khwahish hai.",
+"Tum jaisi koi nahi, na tha, na hoga.",
+"Mera dil sirf tumhara hai, hamesha se.",
+"Tum meri khamoshi ki awaaz ho.",
+"Tumhari parwah karna mujhe sukoon deta hai.",
+"Tum ne bina kuch kahe bhi mujhe sab kuch keh diya.",
+"Tum meri zindagi ka sab se haseen mod ho.",
+"Main tumhe aaj bhi pehli nazar ki tarah chahta hoon.",
+"Tumhare bina khushi adhoori hai.",
+"Tum meri dhoop bhi ho, meri chaaon bhi.",
+"Tumhari har ada mujhe naye sire se tumse pyar karwa deti hai.",
+"Tum meri pasandida jagah ho.",
+"Mujhe tumse mohabbat hai, aur yeh kabhi kam nahi hogi.",
+"Tum mere liye sab se qeemti ho.",
+"Tumhara saath meri sabse badi daulat hai.",
+"Tum ho to har mushkil aasan lagti hai.",
+"Tum meri raaton ka chand aur dino ka suraj ho.",
+"Tum ne meri zindagi ko matlab diya.",
+"Main tumhare liye kuch bhi kar sakta hoon, bas tum muskurati raho.",
+"Tumhari khushi meri pehli khwahish hai.",
+"Tum se mohabbat karna mera sabse acha kaam hai.",
+"Tum mere dil ka sukoon ho.",
+"Har dua mein tumhara naam shamil hai.",
+"Tum meri zindagi ka sabse khoobsurat tohfa ho.",
+"Tumhare bina mera har lafz adhoora hai.",
+"Tum meri kahani ka sabse pyara kirdar ho.",
+"Tumhari ek haan ne mujhe duniya ka ameer bana diya.",
+"Mujhe pata hai tum kam kehti ho, par main sab mehsoos karta hoon.",
+"Tumhari khamoshi mere liye sab se pyara izhar hai.",
+"Tum meri subah ki chai aur raat ki dua ho.",
+"Tumhare saath har lamha khoobsurat hai.",
+"Main tumhe waqt ke saath aur zyada chahta hoon.",
+"Tum meri ibadat jaisi ho, pakeeza aur sukoon wali.",
+"Tum meri har kamyabi ke peeche ki wajah ho.",
+"Tumhari yaadon se meri tanhai bhi sajti hai.",
+"Tum mera sabse acha dost bhi ho, aur sabse pyari mohabbat bhi.",
+"Mujhe tumhari har baat pyari lagti hai, chahe woh naraazgi hi kyun na ho.",
+"Tum jahan ho, wahin meri jannat hai.",
+"Tum meri zindagi ka sabse zaroori hissa ho.",
+"Mera dil tumhare naam ki tasbeeh karta hai.",
+"Tum se mohabbat meri aadat nahi, meri zaroorat hai.",
+"Tum meri sab se pasandida sochon mein rehti ho.",
+"Main tumhara hoon, aur hamesha rahunga.",
+"Tum mere liye dua ka jawab ho.",
+"Tumhare saath guzra har din ek khoobsurat yaad hai.",
+"Tum meri muskurahat ki wajah ho.",
+"Chahe duniya badal jaye, mera dil tumhara hi rahega.",
+"Tum ne mere khwabon ko haqeeqat ka rang diya.",
+"Tum meri sab se qeemti amanat ho.",
+"Tumhare liye mera pyar roz naya hota hai.",
+"Tum meri zindagi ka sabse sukoon bhara pal ho.",
+"Tum se baat karke din mukammal lagta hai.",
+"Mujhe fakhr hai ke tum meri ho.",
+"Tum meri zindagi ki sabse haseen ghazal ho.",
+"Tum ho to main hoon.",
+"Tumhari ek muskurahat ke liye main sab kuch bhula sakta hoon.",
+"Main tumse bepanah mohabbat karta hoon.",
+"Tum meri aakhri khwahish aur pehla khayal ho.",
+"Tumhare naam se meri har subah roshan hai.",
+"Tum mere liye khaas ho, bohat khaas.",
+"Meri zindagi ka har safar tumhare saath behtar hai.",
+"Tumne 4 saal pehle haan kaha tha, main aaj bhi usi pal mein jee raha hoon.",
+"Tum meri mohabbat ho, meri izzat ho, meri zindagi ho.",
+"Mujhe nahi pata mohabbat kitni hoti hai, bas itna pata hai ke tumse hi hai.",
+"I love you. Aaj, kal, aur hamesha."
+];
+var i=0,m=document.getElementById("msg");
+function show(){m.style.opacity=0;setTimeout(function(){m.textContent=M[i];m.style.opacity=1;
+document.getElementById("count").textContent=(i+1)+" / "+M.length;},180);}
+function step(d){i=(i+d+M.length)%M.length;show();}
+function rnd(){i=Math.floor(Math.random()*M.length);show();}
+function toggleAll(){var a=document.getElementById("all"),on=a.style.display!=="block";
+if(!a.innerHTML){a.innerHTML=M.map(function(t,n){return "<p><b>"+(n+1)+".</b>"+t+"</p>"}).join("");}
+a.style.display=on?"block":"none";document.getElementById("tb").textContent=on?"Chupao":"Sab dekho";}
+document.addEventListener("keydown",function(e){if(e.key==="ArrowRight")step(1);if(e.key==="ArrowLeft")step(-1);});
+var p=document.getElementById("panel");
+p.addEventListener("mousemove",function(e){var r=p.getBoundingClientRect();
+p.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*6+"deg");p.style.setProperty("--rx",-((e.clientY-r.top)/r.height-.5)*6+"deg");});
+p.addEventListener("mouseleave",function(){p.style.setProperty("--ry","0deg");p.style.setProperty("--rx","0deg");});
+show();
+</script></body></html>
